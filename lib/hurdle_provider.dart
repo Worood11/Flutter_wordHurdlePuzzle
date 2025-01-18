@@ -12,7 +12,8 @@ class HurdleProvider extends ChangeNotifier {
   List<Wordle> hurdleBoard = [];
   String targetWord = '';
   int count = 0;
-  final lettersPerRow = 0;
+  int index = 0;
+  final lettersPerRow = 5;
 
   init() {
     totalWords = words.all.where((element) => element.length == 5).toList();
@@ -33,7 +34,23 @@ class HurdleProvider extends ChangeNotifier {
     if (count < lettersPerRow) {
       count++;
       rowInputs.add(letter);
+      hurdleBoard[index] = Wordle(letter: letter);
+      index++;
       print(rowInputs);
+      notifyListeners();
     }
+  }
+
+  void deleteLetter() {
+    if (rowInputs.isNotEmpty) {
+      rowInputs.removeAt(rowInputs.length - 1);
+      //print(rowInputs);
+    }
+    if (count > 0) {
+      hurdleBoard[index - 1] = Wordle(letter: '');
+      count--;
+      index--;
+    }
+    notifyListeners();
   }
 }
