@@ -69,7 +69,13 @@ class _WordHurdlePageState extends State<WordHurdlePage> {
                       child: const Text('DELETE'),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (!provider.isAValidWord) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Not a word in my dictionary')));
+                          return;
+                        }
+                      },
                       child: const Text('SUBMIT'),
                     ),
                   ],

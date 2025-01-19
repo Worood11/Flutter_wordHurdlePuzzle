@@ -30,6 +30,9 @@ class HurdleProvider extends ChangeNotifier {
     print(targetWord);
   }
 
+  bool get isAValidWord =>
+      totalWords.contains(rowInputs.join('').toLowerCase());
+
   inputLetter(String letter) {
     if (count < lettersPerRow) {
       count++;
@@ -46,6 +49,7 @@ class HurdleProvider extends ChangeNotifier {
       rowInputs.removeAt(rowInputs.length - 1);
       //print(rowInputs);
     }
+
     if (count > 0) {
       hurdleBoard[index - 1] = Wordle(letter: '');
       count--;
