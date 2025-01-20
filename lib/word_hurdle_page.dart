@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:word_hurdle_puzzle/helper_funcations.dart';
 import 'package:word_hurdle_puzzle/hurdle_provider.dart';
 import 'package:word_hurdle_puzzle/keyboard_view.dart';
 import 'package:word_hurdle_puzzle/wordle_view.dart';
@@ -71,9 +72,20 @@ class _WordHurdlePageState extends State<WordHurdlePage> {
                     ElevatedButton(
                       onPressed: () {
                         if (!provider.isAValidWord) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Not a word in my dictionary')));
+                          showMsg(context, 'Not a word in my dictionary');
                           return;
+                        }
+                        if (provider.shouldCheckForAnswer) {
+                          provider.checkAnswer();
+                        }
+                        if (provider.wins) {
+                          showResult(
+                            context: context,
+                            title: 'You Win !!!',
+                            body: 'The word was ${provider.targetWord}',
+                            onPlayAgain: () {},
+                            onCancel: () {},
+                          );
                         }
                       },
                       child: const Text('SUBMIT'),

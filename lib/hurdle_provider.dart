@@ -14,6 +14,7 @@ class HurdleProvider extends ChangeNotifier {
   int count = 0;
   int index = 0;
   final lettersPerRow = 5;
+  bool wins = false;
 
   init() {
     totalWords = words.all.where((element) => element.length == 5).toList();
@@ -32,6 +33,8 @@ class HurdleProvider extends ChangeNotifier {
 
   bool get isAValidWord =>
       totalWords.contains(rowInputs.join('').toLowerCase());
+
+  bool get shouldCheckForAnswer => rowInputs.length == lettersPerRow;
 
   inputLetter(String letter) {
     if (count < lettersPerRow) {
@@ -56,5 +59,12 @@ class HurdleProvider extends ChangeNotifier {
       index--;
     }
     notifyListeners();
+  }
+
+  void checkAnswer() {
+    final input = rowInputs.join('');
+    if (targetWord == input) {
+      wins = true;
+    }
   }
 }
