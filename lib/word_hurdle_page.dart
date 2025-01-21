@@ -83,8 +83,26 @@ class _WordHurdlePageState extends State<WordHurdlePage> {
                             context: context,
                             title: 'You Win !!!',
                             body: 'The word was ${provider.targetWord}',
-                            onPlayAgain: () {},
-                            onCancel: () {},
+                            onPlayAgain: () {
+                              Navigator.pop(context);
+                              provider.reset();
+                            },
+                            onCancel: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                        } else if (provider.noAttemptsLeft) {
+                          showResult(
+                            context: context,
+                            title: 'You lost !!',
+                            body: 'The word was ${provider.targetWord}',
+                            onPlayAgain: () {
+                              Navigator.pop(context);
+                              provider.reset();
+                            },
+                            onCancel: () {
+                              Navigator.pop(context);
+                            },
                           );
                         }
                       },

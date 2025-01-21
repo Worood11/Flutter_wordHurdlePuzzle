@@ -38,6 +38,8 @@ class HurdleProvider extends ChangeNotifier {
 
   bool get shouldCheckForAnswer => rowInputs.length == lettersPerRow;
 
+  bool get noAttemptsLeft => attempts == totalAttempts;
+
   inputLetter(String letter) {
     if (count < lettersPerRow) {
       count++;
@@ -93,5 +95,19 @@ class HurdleProvider extends ChangeNotifier {
     attempts++;
     count = 0;
     rowInputs.clear();
+  }
+
+  reset() {
+    count = 0;
+    index = 0;
+    rowInputs.clear();
+    hurdleBoard.clear();
+    excludedLetters.clear();
+    attempts = 0;
+    wins = false;
+    targetWord = '';
+    generateBoard();
+    generateRandomWord();
+    notifyListeners();
   }
 }
