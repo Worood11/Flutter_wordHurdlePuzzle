@@ -70,42 +70,9 @@ class _WordHurdlePageState extends State<WordHurdlePage> {
                       child: const Text('DELETE'),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        if (!provider.isAValidWord) {
-                          showMsg(context, 'Not a word in my dictionary');
-                          return;
-                        }
-                        if (provider.shouldCheckForAnswer) {
-                          provider.checkAnswer();
-                        }
-                        if (provider.wins) {
-                          showResult(
-                            context: context,
-                            title: 'You Win !!!',
-                            body: 'The word was ${provider.targetWord}',
-                            onPlayAgain: () {
-                              Navigator.pop(context);
-                              provider.reset();
-                            },
-                            onCancel: () {
-                              Navigator.pop(context);
-                            },
-                          );
-                        } else if (provider.noAttemptsLeft) {
-                          showResult(
-                            context: context,
-                            title: 'You lost !!',
-                            body: 'The word was ${provider.targetWord}',
-                            onPlayAgain: () {
-                              Navigator.pop(context);
-                              provider.reset();
-                            },
-                            onCancel: () {
-                              Navigator.pop(context);
-                            },
-                          );
-                        }
-                      },
+                      onPressed: provider.count == 5
+                          ? () => _handleInput(provider)
+                          : null,
                       child: const Text('SUBMIT'),
                     ),
                   ],
@@ -116,5 +83,42 @@ class _WordHurdlePageState extends State<WordHurdlePage> {
         ),
       ),
     );
+  }
+
+  _handleInput(HurdleProvider provider) {
+    if (!provider.isAValidWord) {
+      showMsg(context, 'Not a word in my dictionary');
+      return;
+    }
+    if (provider.shouldCheckForAnswer) {
+      provider.checkAnswer();
+    }
+    if (provider.wins) {
+      showResult(
+        context: context,
+        title: 'You Win !!!',
+        body: 'The word was ${provider.targetWord}',
+        onPlayAgain: () {
+          Navigator.pop(context);
+          provider.reset();
+        },
+        onCancel: () {
+          Navigator.pop(context);
+        },
+      );
+    } else if (provider.noAttemptsLeft) {
+      showResult(
+        context: context,
+        title: 'You lost !!',
+        body: 'The word was ${provider.targetWord}',
+        onPlayAgain: () {
+          Navigator.pop(context);
+          provider.reset();
+        },
+        onCancel: () {
+          Navigator.pop(context);
+        },
+      );
+    }
   }
 }
